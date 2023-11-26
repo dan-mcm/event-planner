@@ -9,10 +9,15 @@ default: &default
 
 # purposes of sample app not defining separate test/prod DB configs
 
-# development:
-#   <<: *default
-#   database: ep_db
+development:
+  <<: *default
+  database: ep_db
 
-# test:
-#   <<: *default
-#   database: ep_db
+test:
+  <<: *default
+  database: ep_db
+
+production:
+  <<: *default
+  database: ep_db
+  secret_key_base: 3693f19cf162482dfa74f2e32b03e461606bcc1bf9d01b689bf77e086ef6981a2886e85382ff9ce211e2407213633061898b87854a609ba613c904f7fdd6003d

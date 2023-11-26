@@ -17,5 +17,17 @@ docker-compose up -d
 
 Hosted via Postgres docker image (with non persistent-volume for now). To manually create & run migrations you can run the below:
 
-docker-compose exec app rails db:create
-docker-compose exec app rails db:migrate
+Manually access the DB:
+
+```
+docker exec -it event-planner-db-1 bash
+psql -U "ep_user" -d "ep_db"
+```
+
+Manually run the db migrations:
+
+```
+docker exec -it event-planner-app-1 bash
+bundle exec rake db:migrate:status
+bundle exec rake db:migrate
+```

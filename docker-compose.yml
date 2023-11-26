@@ -25,5 +25,16 @@ services:
       POSTGRES_USER: ep_user
       POSTGRES_PASSWORD: Planner123!
 
+  # experimental to automate the migration on fresh build
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["bundle", "exec", "rails", "db:migrate"]
+    depends_on:
+      - app
+      - db
+
+
 volumes:
   postgres_data:
