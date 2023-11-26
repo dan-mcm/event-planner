@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db
+  database: ep_db
+  username: ep_user
+  password: Planner123!
+
+# purposes of sample app not defining separate test/prod DB configs
+
+# development:
+#   <<: *default
+#   database: ep_db
+
+# test:
+#   <<: *default
+#   database: ep_db
