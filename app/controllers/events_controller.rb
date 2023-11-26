@@ -1,7 +1,8 @@
-class Api::V1::EventsController < ApplicationController
+class EventsController < ApplicationController
 
     def index
-        @events = Event.all
+        # @events = Event.all
+        @events = current_user ? current_user.events : []
     end
 
     def show

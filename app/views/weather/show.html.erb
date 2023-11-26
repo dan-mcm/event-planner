@@ -1,0 +1,10 @@
+<!-- app/views/weather/show.html.erb -->
+<h1>Weather for <%= @city %></h1>
+
+<% if @weather_data %>
+  <p>Temperature: <%= @weather_data['main']['temp'] %>°C</p>
+  <p>Conditions: <%= @weather_data['weather'][0]['description'] %></p>
+  <!-- Add more details as needed -->
+<% else %>
+  <p>Unable to retrieve weather data for <%= @city %></p>
+<% end %>
