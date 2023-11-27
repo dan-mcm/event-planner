@@ -4,3 +4,7 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+task :test do
+    sh 'RAILS_ENV=test bundle exec rspec --format documentation --color spec'
+end

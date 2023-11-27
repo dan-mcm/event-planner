@@ -4,6 +4,20 @@ A sample application running with Ruby on Rails.
 
 Bootstrapped with default rails tooling i.e. `rails new event-planning -d postgresql`
 
+## Environmental Variables
+
+Open Weather Maps API key is hardcoded in weather_controller.rb. You will need to swap this out for a valid key to be able to run the service locally. This will be substituted with a .env variable at a later date.
+
+## Tests
+
+Generated via Rspec.
+Useful command added to Rakefile to make this easier to execute.
+
+```
+docker exec -it event-planner-app-1 bash
+bundle exec rake test
+```
+
 ## Dockerisation
 
 To Run the application you can spin up the main application and dependencies via the docker-compose file:
@@ -12,11 +26,6 @@ To Run the application you can spin up the main application and dependencies via
 docker-compose build
 docker-compose up -d
 ```
-
-## Environmental Variables
-
-Open Weather Maps API key is hardcoded in weather_controller.rb. You will need to swap this out for a valid key to be able to run the service locally. This will be substituted with a .env variable at a later date.
-
 
 ## Databases
 
@@ -90,41 +99,15 @@ curl -X PATCH -H "Content-Type: application/json" -d '{"title":"Updated Event"}'
 curl -X DELETE http://localhost:3000/events/1
 ```
 
-### Example End to End Flow
-```
-# create a user
+## Example End to End Flow
 
-## Need to imitate landing on page to generate CSRF token
-curl -X GET http://localhost:3000/users/sign_in
+User logs in via url root directory, should be directed to login screen.
+If user does not have an account they can navigate to sign up page.
 
-## Use the CSRF from above in folow on query
-## Note; currently cant get either of these flows to work.
-
-## attempt 1 - trying CSRF token passed as header, have also attemptedpassed as authentication token, also trialed passing authentication token from sign_in endpoint in payload as well no luck.
-# curl -X POST -H "Content-Type: application/json" -d '{
-  "user": {
-    "email": "example@example.com",
-    "password": "password",
-    "password_confirmation": "password"
-  }
-}' http://localhost:3000/users/sign_up
-
-## attempt 2 - trying authenticty token to match format of browser query
-
-curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "authenticity_token=$authenticity_token&user%5Bemail%5D=daniellll%40test.com&user%5Bpassword%5D=123123&user%5Bpassword_confirmation%5D=123123&commit=Sign+up" http://localhost:3000/users/sign_up
-
-
-# login and get auth token
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"user": {"email": "test@daniel.com", "password": "123123"}}' \
-  http://localhost:3000/users/sign_in
-
-# create event using token
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer {{AUTH TOKEN}}" \
-  -d '{"event": {"title": "Event Title", "description": "Event Description", "date": "2023-12-01T12:00:00", "location": "Event Location"}}' \
-  http://localhost:3000/api/v1/events
-
-```
+After signing up/logging in the user will have the option to access multiple functions:
+* Create a New Event
+* Edit an existing Event (if exists)
+* Delete an existing Event (if exists)
+* View All users Events (using show_all=true flag)
+* View Current Forecast for Dublin (using OpenWeatherAPI)
+* Ability to logout
