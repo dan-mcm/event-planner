@@ -4,6 +4,46 @@ A sample application running with Ruby on Rails.
 
 Bootstrapped with default rails tooling i.e. `rails new event-planning -d postgresql`
 
+## 'Production' Deployment [Azure]
+
+Temporarily hosted and deployed on Azure instance. Reusing existing ACR container registry for ease of access, deploying on low CPU/Memory VM so must be built remotely.
+
+```
+# build and run images locally
+docker-compose build && docker-compose up -d 
+
+# tag images
+docker tag event-planner_app danbot.azurecr.io/danbot:1.0.44
+docker tag postgres:latest danbot.azurecr.io/danbot:1.0.45
+
+# login to docker registry
+docker login danbot.azurecr.io
+
+# push image to docker registry
+docker push danbot.azurecr.io/danbot:1.0.44
+docker push danbot.azurecr.io/danbot:1.0.45
+```
+
+These container images are then pulled and ran locally on an Azure VM accessed via SSH .pem keys
+
+```
+# ssh into VM
+ssh -i ~/danbot-trial_key.pem dan-mcm@104.45.10.197
+
+# login to docker registry
+docker login danbot.azurecr.io
+
+# pull images
+docker pull danbot.azurecr.io/danbot:1.0.44
+docker pull danbot.azurecr.io/danbot:1.0.45
+
+# run images
+sudo docker run -d danbot.azurecr.io/danbot:1.0.44
+sudo docker run -d danbot.azurecr.io/danbot:1.0.45
+```
+
+###
+
 ## Environmental Variables
 
 Open Weather Maps API key needs to be definfed within the projects .env file.
@@ -116,3 +156,9 @@ After signing up/logging in the user will have the option to access multiple fun
 * View All users Events (using show_all=true flag)
 * View Current Forecast for Dublin (using OpenWeatherAPI)
 * Ability to logout
+
+
+
+
+
+## Further Resources
