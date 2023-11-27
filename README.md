@@ -7,6 +7,7 @@ Bootstrapped with default rails tooling i.e. `rails new event-planning -d postgr
 ## 'Production' Deployment [Azure]
 
 Temporarily hosted and deployed on Azure instance. Reusing existing ACR container registry for ease of access, deploying on low CPU/Memory VM so must be built remotely.
+*Error with encryption key so unable to host at time of writing, service must be run locally*
 
 ```
 # build and run images locally
