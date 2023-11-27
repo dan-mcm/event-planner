@@ -1,8 +1,13 @@
 class EventsController < ApplicationController
+    before_action :authenticate_user!
 
     def index
-        # @events = Event.all
         @events = current_user ? current_user.events : []
+
+        respond_to do |format|
+            format.html { render :index } 
+            format.json { render json: @events }
+          end
     end
 
     def show
@@ -14,12 +19,12 @@ class EventsController < ApplicationController
     end
 
     def create
-        @event = Event.new(event_params)
+        @event = current_user.events.build(event_params)
 
         if @event.save
-            redirect_to @event, notice: 'Event was successfully created.'
+            redirect_to events_path, notice: 'Event was successfully created.'
         else
-            render :new
+            render :index
         end
     end
 
@@ -47,6 +52,6 @@ class EventsController < ApplicationController
     private
 
     def event_params
-        params.require(:event).permit(:title, :description, :start_date, :end_date, :user_id)
+        params.require(:event).permit(:title, :description, :location, :start_date, :end_date, :user_id)
     end
 end
