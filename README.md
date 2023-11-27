@@ -6,7 +6,8 @@ Bootstrapped with default rails tooling i.e. `rails new event-planning -d postgr
 
 ## Environmental Variables
 
-Open Weather Maps API key is hardcoded in weather_controller.rb. You will need to swap this out for a valid key to be able to run the service locally. This will be substituted with a .env variable at a later date.
+Open Weather Maps API key needs to be definfed within the projects .env file.
+You can see an example .env.example file supplied with the list of variables to substitute for your own keys. Beware that if you build a dockerimage your .env will be copied into the dockerfile as it has been removed from the .dockerignore for ease of setup.
 
 ## Tests
 
@@ -26,6 +27,8 @@ To Run the application you can spin up the main application and dependencies via
 docker-compose build
 docker-compose up -d
 ```
+
+Note: you may need to run manual migrations in the event of an error.
 
 ## Databases
 
@@ -82,6 +85,8 @@ As the User registration is configured via [Devise](https://github.com/heartcomb
 ```
 
 ### Events Endpoints
+
+Note these require user authentication so these are only for demonstration purposes.
 ```
 # Events Index
 curl -X GET http://localhost:3000/events
@@ -99,7 +104,7 @@ curl -X PATCH -H "Content-Type: application/json" -d '{"title":"Updated Event"}'
 curl -X DELETE http://localhost:3000/events/1
 ```
 
-## Example End to End Flow
+## Example End to End Functionality
 
 User logs in via url root directory, should be directed to login screen.
 If user does not have an account they can navigate to sign up page.

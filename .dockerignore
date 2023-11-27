@@ -6,9 +6,10 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
+# for purposes of demoing copying the .env, should not do this in prod environment.
+# /.env*
+# !/.env*.erb
+.env.example
 
 # Ignore all default key files.
 /config/master.key

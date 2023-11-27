@@ -1,10 +1,10 @@
 class WeatherController < ApplicationController
     before_action :authenticate_user!
     
-    # TODO remove hardcoded api key abstracted out to .env or similar
     def show
-        # hardcoded api key value here
-        @weather_service = WeatherService.new('')
+        api_key = ENV['WEATHER_API_KEY']
+        Rails.logger.info("API Key: #{api_key}")
+        @weather_service = WeatherService.new(api_key)
         @city = params[:city] || 'Dublin'
         @weather_data = @weather_service.get_weather(@city)
     end
