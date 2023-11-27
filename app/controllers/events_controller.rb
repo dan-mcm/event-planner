@@ -2,16 +2,24 @@ class EventsController < ApplicationController
     before_action :authenticate_user!
 
     def index
-        @events = current_user ? current_user.events : []
+        
+        # handling special case for passing parameter to endpoint enabling viewing of all active events
+        @events = params[:show_all] == 'true' ? Event.all : (current_user ? current_user.events : [])
 
         respond_to do |format|
             format.html { render :index } 
             format.json { render json: @events }
-          end
+        end
     end
 
     def show
-        @event = Event.find(params[:id])
+        # @event = Event.find(params[:id])
+        @events = params[:show_all] == 'true' ? Event.all : (current_user ? current_user.events : [])
+
+        respond_to do |format|
+            format.html { render :index } 
+            format.json { render json: @events }
+        end
     end
 
     def new
@@ -38,6 +46,7 @@ class EventsController < ApplicationController
         if @event.update(event_params)
             redirect_to @event, notice: 'Event was successfully updated.'
         else
+            flash[:alert] = 'Error updating event.'
             render :edit
         end
     end

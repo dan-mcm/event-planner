@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Event</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+</head>
+<body>
+  <h2>Edit Event</h2>
+
+  <%= form_with(model: @event, url: event_path(@event), method: :patch) do |form| %>
+    <div style="display: flex; flex-direction: column; gap: 1em;">
+      <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        <div style="width: 100px;">
+          <%= form.label :title %>
+        </div>
+        <%= form.text_field :title %>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        <div style="width: 100px;">
+          <%= form.label :description %>
+        </div>
+        <%= form.text_area :description %>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        <div style="width: 100px;">
+          <%= form.label :start_date %>
+        </div>
+        <%= form.datetime_local_field :start_date %>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        <div style="width: 100px;">
+          <%= form.label :end_date %>
+        </div>
+        <%= form.datetime_local_field :end_date %>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        <div style="width: 100px;">
+          <%= form.label :location %>
+        </div>
+        <%= form.text_field :location %>
+      </div>
+
+      <div>
+        <%= form.submit "Update Event" %>
+      </div>
+    </div>
+  <% end %>
+
+  <br/>
+
+  <%= link_to "Back to Events", @event %>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% end %>
+</body>
+</html>

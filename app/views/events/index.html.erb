@@ -7,6 +7,9 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <!-- delete endpoing bugging witha  get instead of delete requset on click thought this might help... -->
+    <%= javascript_include_tag 'rails-ujs', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
@@ -31,10 +34,15 @@
                 <td><%= event.start_date %></td>
                 <td><%= event.end_date %></td>
                 <td><%= event.location %></td>
+                <td><%= link_to "Edit", edit_event_path(event) %></td>
+                <td><%= link_to "Delete", event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
             <% end %>
         </tbody>
         </table>
+
+        <%= link_to "Show All Users Events", events_path(show_all: true), class: "show-all-link" %>
+        <%= link_to "Show My Events", events_path, class: "show-my-events-link" %>
     </div>
 
     <hr />
@@ -90,6 +98,12 @@
 
     <div>
         <a href="/weather/Dublin">Checkout Current Forecast</a>
+    </div>
+
+    <hr />
+
+    <div>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure you want to log out?' } %>
     </div>
   </body>
 </html>
